@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="en">
+    <script>
+        APIKEY=localStorage.svc_search_v2_articlesearch_api_key;
+    </script>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>New York Times Article Search API v2</title>
+
+		<meta name="description" content="New York Times Article Search API v2">
+		<meta name="author" content="James Boehmer">
+        <meta name="copyright" content="&copy; 2013 The New York Times">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/montserrat_black-orange.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+<div class="slides">
+    <section>
+    <section>
+        <h2>
+    <font face="trebuchet ms">The New York Times</font>
+</h2>
+<h3>
+    <font face="trebuchet ms">Article Search API</font>
+</h3>
+<div>
+    <br>
+</div>
+<div>
+    <br>
+</div>
+<div>
+    <font face="trebuchet ms">James Boehmer</font>
+</div>
+<div>
+    <font face="trebuchet ms">james.boehmer@nytimes.com</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <a href="https://twitter.com/jamesboehmer">@jamesboehmer</a>
+
+    </font>
+</div>
+<div>
+    <font face="trebuchet ms">
+<a href="https://github.com/jamesboehmer">github.com/jamesboehmer</a>
+</font>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+<section>
+    <!-- <div style="width: 100px; height: 100px; margin-top: -50px; margin-left: -50px; position: fixed; top: 50%; left: 50%;">foobar</div> -->
+    <span id="apiKeyReveal" onclick="javascript:getApiKeyFromUser();" style="cursor: pointer;"></span>
+</section>
+</section>
+        <section>
+            <h2>
+    <font face="trebuchet ms">Getting an API Key</font>
+</h2>
+            <div>
+                <font face="trebuchet ms">
+                    <br>
+                </font>
+            </div>
+            <div>
+                <font face="trebuchet ms">First thing's first, you need a key to use NYT APIs!</font>
+            </div>
+            <div>
+                <font face="trebuchet ms">
+                    <br>
+                </font>
+            </div>
+            <div style="text-align: left;">
+                <ol>
+                    <li>
+                        <span style="letter-spacing: -0.02em;">Go to </span>
+                        <a href="http://developer.nytimes.com/apps/register" style="letter-spacing: -0.02em;">developer.nytimes.com/apps/register</a>
+                        <span style="letter-spacing: -0.02em;">&nbsp;(log in)</span>
+                        <br>
+                    </li>
+                    <li>Choose the API you want to use</li>
+                    <li>Agree to the evil terms of service!!!</li>
+                </ol>
+                <br>
+            </div>
+            <div style="text-align: left;">
+                <br>
+            </div>
+</section>
+            <section>
+                <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<div>
+    <br>
+</div>
+<div>
+    <font face="trebuchet ms">Let's say you want to find an article in the archives. &nbsp;You'll want to use the new Article Search API.</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div style="text-align: left;">
+    <ul>
+        <li>
+            <font face="trebuchet ms">Use <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}">api.nytimes.com/svc/search/v2/articlesearch.json</a>
+        </font>
+    </li>
+    <li>
+        <font face="trebuchet ms">All API requests must include the <i>
+            <b>api-key</b>
+            </i> parameter</font>
+        </li>
+        <li>
+            <font face="trebuchet ms">
+                <b>
+                <i>jsonp</i>
+                </b> is also available, and the callback name is enforced</font>
+            </li>
+            <li>For detailed help, see the built in help API at <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/help.json?api-key={api-key}">api.nytimes.com/svc/search/v2/help.json</a>
+        </li>
+    </ul>
+</div>
+
+
+</section>
+                <section>
+                    <section>
+                        <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+    <font face="trebuchet ms">
+<i>
+<b>Query (q)</b>
+</i> parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    <font face="trebuchet ms">When conducting a search, users generally just want to enter a search term. &nbsp;With the Article Search API, you would submit the entire term in the <b>
+        <i>q</i>
+        </b> parameter</font>
+    </div>
+    <div>
+        <br>
+    </div>
+    <div>
+        <ul>
+            <li>
+                
+                    <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=Pulitzer%20Prize"><font color="#cc9900" face="trebuchet ms">q=Pulitzer Prize</font></a>&nbsp;(~18,750 hits)
+                </li>
+                <li>
+                    
+                        <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22"><font color="#cc9900" face="trebuchet ms">q="Pulitzer Prize"</font></a>&nbsp;(~17,770 hits)
+                    </li>
+                </ul>
+                <font face="trebuchet ms">
+                    <br>
+                </font>
+            </div>
+            <div>
+                <font face="trebuchet ms">
+                    <br>
+                </font>
+            </div>
+            <div>
+                <font face="trebuchet ms">The <b>
+<i>q</i>
+</b> parameter will conduct a relevance-based search among the body, headline, and byline. &nbsp;The default order is based on relevance. &nbsp;Of course with tens of thousands of hits, relevance scores don't have quite the impact you'd expect...</font>
+            </div>
+
+</section>
+                        <section>
+                            <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+    <font face="trebuchet ms">
+<i>
+<b>Highlight (hl)</b>
+</i> parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>All Article Search API results get returned with a headline and snippet. &nbsp;To highlight the search term in the headline and snippet fields, set the <b>
+<i>hl</i>
+</b> parameter to true</div>
+<div>
+    <br>
+</div>
+<div>
+<ul>
+            <li>
+
+    <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;hl=true"><font color="#cc9900" face="trebuchet ms">q="Pulitzer Prize" &amp; hl=true</font></a>
+<br>
+</li>
+                </ul>
+                
+</div>
+<div>
+    <br>
+<pre>{&nbsp;<br>&nbsp; web_url: "http://select.nytimes.com/gst/abstract.html?res=9E06E3...",<br>&nbsp; snippet: "condemning the &lt;strong&gt;Pulitzer Prize&lt;/strong&gt; award to...",<br>&nbsp; headline: {<br>
+    <span style="white-space: pre;">	</span>main: "The &lt;strong&gt;Pulitzer Prize&lt;/strong&gt;."<br>&nbsp; }<br>}</pre>
+</div>
+
+
+
+</section>
+                        </section>
+                        <section>
+                            <section>
+                                <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Begin/End Date</i>
+    </b> parameters</font>
+    </h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    <font face="trebuchet ms">Now you've got results back, but there are way too many! &nbsp;You're really interested in seeing only more recent news</font>
+</div>
+    <div>
+        <br>
+    </div>
+    <div>
+        <ul>
+            <li>
+            
+<a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;begin_date=20130101" style="letter-spacing: -0.02em;">
+<font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">
+    <span style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;</span>&amp; begin_date=20130101</font>
+    <span style="letter-spacing: -0.02em;">&nbsp;</span>
+</a>(~230 hits)</li>
+
+</ul>
+</div>
+            <div>
+                <font face="trebuchet ms">
+                    <br>
+                </font>
+            </div>
+            <div>
+                <font face="trebuchet ms">The <i>
+<b>begin_date</b>
+</i> and <i>
+<b>end_date</b>
+</i> parameters are inclusive filters for limiting the search corpus by publication date. &nbsp;</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div style="text-align: left;">
+    <ul>
+        <li>
+            <span style="letter-spacing: -0.02em;">Having fewer hits quiets the noise a lot for you.&nbsp;</span>
+            <br>
+        </li>
+    </ul>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div style="text-align: left;">
+    <ul>
+        <li>
+            <span style="letter-spacing: -0.02em;">And having a smaller corpus to search means the query (</span>
+            <b style="letter-spacing: -0.02em;">
+                <i>q</i>
+            </b>
+            <span style="letter-spacing: -0.02em;">) term's relevance score is much more meaningful.</span>
+            <br>
+        </li>
+    </ul>
+</div>
+
+
+
+
+</section>
+                                <section>
+                                    <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Begin/End Date</i>
+    </b> parameters (cont)</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">The <b>
+    <i>begin_date</i>
+</b> and <b>
+<i>end_date</i>
+</b> parameters can be used together or alone, implying an open ended filter</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+    </div>
+    <div>
+        <ul>
+            <li>
+            
+<a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;begin_date=20130101" style="letter-spacing: -0.02em;">
+<font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;&amp; begin_date=20130101</font>
+    <span style="letter-spacing: -0.02em;">&nbsp;</span>
+</a>(~230 hits)</li>
+    <li>
+        <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;end_date=20121231" style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;letter-spacing: -0.02em;">
+            <font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;&amp; end_date=20121231</font>&nbsp;<span style="letter-spacing: -0.02em;">&nbsp;</span>&nbsp;</a>
+                <span style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;">(~17500 hits)</span>
+                <br>
+            </li>
+<li>
+    <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=pulitzer%20%22pentagon%20papers%22&amp;begin_date=19720101&amp;end_date=19721231"><font color="#cc9900">q=pulitzer "pentagon papers" &amp; begin_date=19720101 &amp; end_date=19721231</font></a> (~10 hits)</li>
+        </ul>
+    </div>
+    <div style="text-align: left;">
+</div>
+                                </section>
+                            </section>
+                            <section>
+                                <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Sort</i>
+    </b> parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">What if all you want are the newest results? &nbsp;The <i>
+<b>sort</b>
+</i> parameter sorts the results by publication date, forcibly overriding relevance scores.</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+    </div>
+    <div>
+        <ul>
+            <li>
+            
+<a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;sort=newest" style="letter-spacing: -0.02em;">
+<font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">
+    <span style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;</span>&amp; sort=newest</font>
+</a>
+</li>
+
+</ul>
+</div>
+            <div>
+                <font face="trebuchet ms">
+                    <br>
+                </font>
+            </div>
+            <div>
+<font face="trebuchet ms">Sorting can be by <b>newest</b>&nbsp;or<b> oldest</b>
+</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    <font face="trebuchet ms">Relevance is <i>still</i> calculated for the query term, but only for inclusion in the result set</font>
+</div>
+<div>
+    <br>
+</div>
+<div>
+    <font face="trebuchet ms">Documents with no publication date (e.g. references and lists) are returned last</font>
+</div>
+<div style="text-align: left;">
+</div>
+</section>
+                                <section>
+                                    <section>
+                                        <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Filter Query (fq)&nbsp;</i>
+</b>parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">So now you have a lot of results, but you'd like to limit them based on some criteria other than date. &nbsp;What if you don't want to see the wire service articles (e.g. AP, Reuters, etc.)? &nbsp;Using standard <a href="http://www.lucenetutorial.com/lucene-query-syntax.html"><font color="#cc9900">Lucene</font></a> syntax, you can create a custom filter</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    </div>
+    <div>
+<ul>
+    <li>
+        <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;begin_date=20130101&amp;sort=newest&amp;fq=source:%22The%20New%20York%20Times%22" style="letter-spacing: -0.02em;">
+            <font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;&amp; sort=newest&nbsp;&amp; fq=source:"The New York Times"</font>
+            </a>
+            <br>
+        </li>
+    </ul>
+    <span style="letter-spacing: -0.02em;">
+        <div>
+            <span style="letter-spacing: -0.02em;">
+                <br>
+            </span>
+        </div>
+        </span>Similar to the date parameters, the filter query also limits the corpus before searching for the query term</div>
+        <div>
+            <br>
+        </div>
+        <div>The fields available for filtering behave in various way based on how they are analyzed at index time.</div>
+<div>
+        <br>
+    </div>
+<div style="text-align: left;">
+</div>
+                                    </section>
+                                    <section>
+                                        <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Filter Query (fq)&nbsp;</i>
+</b>fields</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<pre>
+                                        <b>
+<i>Field                       Behavior</i>
+</b>
+body                        multiple tokens
+body.search                 left-edge n-grams
+creative_works              single token
+creative_works.contains     multiple tokens
+day_of_week                 single token
+document_type               case sensitive exact match
+glocations single           token
+glocations.contains         multiple tokens
+headline                    multiple tokens
+headline.search             left-edge n-grams
+kicker                      single token
+kicker.contains             multiple tokens
+news_desk                   single token
+news_desk.contains          multiple tokens
+organizations               single token
+organizations.contains      multiple tokens
+persons                     single token
+persons.contains            multiple tokens
+pub_date                    timestamp (YYYY-MM-DD)
+pub_year                    integer
+secpg                       multiple tokens
+</pre>
+
+
+
+
+</section>
+                                        <section>
+                                            <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Filter Query (fq)&nbsp;</i>
+</b>fields (cont)</font>
+                                        </h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<pre>
+                                        <b>
+<i>Field                       Behavior</i>
+</b>
+source                      single token
+source.contains             multiple tokens
+subject                     single token
+subject.contains            multiple tokens
+section_name                single token
+section_name.contains       multiple tokens
+type_of_material            single token
+type_of_material.contains   multiple tokens
+web_url                     case sensitive single token
+word_count                  integer
+</pre>
+<div>
+<ul>
+<li style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;white-space: normal;">Various fields can be combined in a complex way to narrow down exactly what you want</li>
+    <li style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;white-space: normal;">
+        <span style="letter-spacing: -0.02em;">The default boolean between values in parenthesis is OR</span>
+        <br>
+    </li>
+    <li style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;white-space: normal;">Explicit booleans (AND, OR) must always be UPPER CASE</li>
+</ul>
+</div>
+
+
+</section>
+                                    </section>
+                                    <section>
+                                        <section>
+                                            <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Type</i>&nbsp;</b>parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">The <b>
+    <i>type</i>
+    </b> parameter is a convenience which allows you to filter by specific document_type. &nbsp;The document_type field is generally limited to just </font>
+    <font face="courier new">
+        <b>article</b>
+    </font>
+    <font face="trebuchet ms">, </font>
+    <font face="courier new">
+        <b>blogpost</b>
+    </font>
+    <font face="trebuchet ms">, and </font>
+    <font face="courier new">
+        <b>multimedia</b>
+    </font>
+    </div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    </div>
+    <div>
+<ul>
+    <li>
+        <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;begin_date=20130101&amp;sort=newest&amp;type=blogpost,multimedia">
+            <font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;&amp; sort=newest&nbsp;&amp; type=blogpost,multimedia</font>
+</a>
+<br>
+        </li>
+    </ul>
+    <span style="letter-spacing: -0.02em;">
+        <div style="">
+            <span style="letter-spacing: -0.02em;">
+                <br>
+            </span>
+        </div>
+<div style="">Multiple document types can be comma-separated</div>
+</span>
+</div>
+<div style="text-align: left;">
+</div>
+</section>
+                                            <section>
+                                                <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>More about filter-like&nbsp;</b>parameters</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">The <b>
+<i>type,</i>
+</b>&nbsp;<i>
+                                                <b>begin_date</b>
+                                            </i> and <i>end_date</i> parameters are API conveniences. They are functionally equivalent filter queries, joined by a logical AND</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    </div>
+    <div>
+<font face="courier new" style="font-size: inherit;font-style: inherit;font-variant: inherit;line-height: inherit;text-align: left;letter-spacing: -0.02em;">
+                                            <font color="#cc9900">
+                                                <b>type=blogpost,multimedia</b>
+</font>
+                                                <br>
+                                            </font>
+                                            <span style="text-align: left;letter-spacing: -0.02em;">
+</span>
+                                            <font face="trebuchet ms" style="font-size: inherit;font-style: inherit;font-variant: inherit;line-height: inherit;text-align: left;letter-spacing: -0.02em;">&nbsp;...is the same as...</font>
+                                            <br>
+                                            <b style="text-align: left;letter-spacing: -0.02em;">
+                                                <font color="#cc9900" face="courier new">fq=document_type:("blogpost" "multimedia")</font>
+</b>
+                                                <span style="text-align: left;letter-spacing: -0.02em;">
+</span>
+                                                <font face="trebuchet ms" style="font-size: inherit;font-style: inherit;font-variant: inherit;line-height: inherit;text-align: left;letter-spacing: -0.02em;">&nbsp;<br>
+                                                </font>
+                                                <span style="letter-spacing: -0.02em;text-align: left;">...which is the same as...</span>
+                                                <font face="trebuchet ms" style="font-size: inherit;font-style: inherit;font-variant: inherit;line-height: inherit;text-align: left;letter-spacing: -0.02em;">
+                                                    <br>
+                                                </font>
+                                                <font face="courier new" style="font-size: inherit;font-style: inherit;font-variant: inherit;line-height: inherit;text-align: left;letter-spacing: -0.02em;">
+                                                    <b>
+                                                    <font color="#cc9900">fq=document_type:"blogpost" OR document_type:"multimedia"&nbsp;</font>&nbsp;</b>
+                                                </font>
+                                                <br>
+                                                <ul>
+    </ul>
+    <span style="letter-spacing: -0.02em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+</span>
+</div>
+<div style="text-align: left;">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+                                                <section>
+                                                    <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>More about filter-like&nbsp;</b>parameters (cont)</font>
+                                                </h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+                                                <font color="#cc9900">
+                                                    <b style="letter-spacing: -0.02em;text-align: left;">
+                                                        <font face="courier new">begin_date=20130101</font>
+                                                    </b>
+                                                    <span style="letter-spacing: -0.02em;text-align: left;"> </span>
+                                                </font>
+                                                <br>
+                                                <span style="letter-spacing: -0.02em;text-align: left;">...is the same as...&nbsp;</span>
+                                                <br>
+                                                <b style="letter-spacing: -0.02em;text-align: left;">
+                                                    <font color="#cc9900" face="courier new">fq=pub_date:[2013-01-01 TO *]</font>
+                                                </b>
+                                                <br>
+                                                <span style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;text-align: left;letter-spacing: -0.02em;">
+                                                    <font face="courier new">
+                                                        <b>
+                                                        <br>
+                                                    </b>
+                                                </font>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;text-align: left;letter-spacing: -0.02em;">
+                                                <font color="#cc9900" face="courier new">
+                                                    <b>type=article,blogpost &amp; begin_date=20120101 &amp; end_date=20121231<br>
+                                                </b>
+                                            </font>
+                                        </span>
+                                        <span style="text-align: left;letter-spacing: -0.02em;">...is the same as...</span>
+                                        <br>
+                                        <b style="letter-spacing: -0.02em;text-align: left;">
+                                            <font color="#cc9900" face="courier new">fq=document_type:("article" "blogpost") AND pub_date:[2012-01-01 TO 2012-12-13]</font>
+                                        </b>
+                                        <br>
+                                    </div>
+                                    <div>
+</div>
+<div style="text-align: left;">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+                                </section>
+                                <section>
+                                    <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Page</i>&nbsp;</b>parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">Article Search API results are limited to 10 results at a time. &nbsp;In order to advance through the results, you'll need to paginate using the <b>
+<i>page</i>
+</b> parameter.</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    </div>
+    <div>
+<ul>
+    <li>
+        <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;begin_date=20130101&amp;sort=newest&amp;fq=source:%22The%20New%20York%20Times%22&amp;page=12">
+            <font color="#cc9900" face="trebuchet ms" style="letter-spacing: -0.02em;">
+                q="Pulitzer Prize"&nbsp;&amp; sort=newest&nbsp;&amp; fq=source:"The New York Times" &nbsp;&amp; page=12</font></a>
+<br>
+        </li>
+    </ul>
+    <span style="letter-spacing: -0.02em;">
+        <div style="">
+            <span style="letter-spacing: -0.02em;">
+                <br>
+            </span>
+        </div>
+<div style="">
+    <span style="letter-spacing: -0.02em;">Page numbers start with zero (i.e. page 12 is offset 120)</span>
+</div>
+<div style="">
+    <span style="letter-spacing: -0.02em;">
+        <br>
+    </span>
+</div>
+<div>
+    <span style="letter-spacing: -0.02em;">Every result comes with a header indicating the total number of hits. &nbsp;The last page number would be&nbsp;</span>
+    <span style="letter-spacing: -0.02em;">
+        <font color="#cc9900" face="courier new">
+            <b>meta.hits/10</b>
+        </font>
+    </span>
+    </div>
+        </span>
+</div>
+<div>
+    <br>
+    </div>
+<div style="text-align: left;">
+</div>
+                                </section>
+                                <section>
+                                    <section>
+                                        <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Facet Field</i>&nbsp;</b>parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">A facet is an aggregate for a field, relative to a search term. &nbsp;For example, if you wanted the top section_name and day_of_week values for the search term "Pulitzer Prize", you would set <b>
+    <i>facet_field</i>
+    </b> to </font>
+    <font face="courier new">
+        <b>section_name,day_of_week</b>
+    </font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+    </div>
+    <div>
+<ul>
+    <li>
+        <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;facet_field=section_name,day_of_week">
+<b>
+<font color="#cc9900" face="trebuchet ms">
+            <font style="letter-spacing: -0.02em;">
+                <span style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;</span>
+                <span style="letter-spacing: -0.02em;">&amp; facet_field=section_name,day_of_week</span>
+</font>
+</font>
+</b>
+</a>
+<br>
+        </li>
+    </ul>
+    <span style="letter-spacing: -0.02em;">
+        <div style="">
+            <span style="letter-spacing: -0.02em;">
+                <br>
+            </span>
+        </div>
+<div style="">The <font color="#cc9900" face="courier new">
+<b>response.facets</b>
+</font> object will give you the top five section names and days of the week, with (and ranked by) counts.</div>
+</span>
+</div>
+<div style="text-align: left;">
+</div>
+                                    </section>
+                                    <section>
+                                        <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>More on facets</b>
+</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <b>
+        <br>
+    </b>
+</font>
+</div>
+<div>
+</div>
+<div>
+<font face="trebuchet ms">What are facets useful for?</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div style="text-align: left;">
+    <ul>
+        <li>
+            <font face="trebuchet ms">When constructing a front end search application, we can present the user with a list of available filters. &nbsp;Intelligently aiding navigation for the user is always a plus!</font>
+        </li>
+        <li>
+            <font face="trebuchet ms">We can make search better by coupling the <a href="http://api.nytimes.com/svc/mostpopular/v2/searched/1.json?api-key={api-key}2">most popular search terms</a> with their top facets, and ranking results higher by keyword</font>
+        </li>
+        <li>
+            <font face="trebuchet ms">We can visualize the importance of subjects over time by reporting on facets over a moving window</font>
+        </li>
+        <li>
+            <font face="trebuchet ms">Presently only low-cardinality fields are available for faceting because of performance concerns. &nbsp;These include&nbsp;source,section_name,document_type,type_of_material and day_of_week</font>
+        </li>
+    </ul>
+</div>
+<div>
+    <span style="letter-spacing: -0.02em;">
+</span>
+</div>
+<div style="text-align: left;">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+                                    </section>
+                                    <section>
+                                        <h2>
+    <font face="trebuchet ms">Article Search API v2</font>
+</h2>
+<h3>
+<font face="trebuchet ms">
+    <b>
+    <i>Facet Filter</i>&nbsp;</b>parameter</font>
+</h3>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+<font face="trebuchet ms">By default, facets are aggregated only for the query term. &nbsp;As you filter the results (perhaps by using the facet values), the list of facets and counts will not change.</font>
+</div>
+<div>
+    <font face="trebuchet ms">
+        <br>
+    </font>
+</div>
+<div>
+</div>
+<div>
+    </div>
+    <div>
+<ul>
+    <li>
+        
+<a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;fq=section_name:Arts&amp;facet_field=section_name,day_of_week">
+<font color="#cc9900" face="trebuchet ms">
+            <font style="letter-spacing: -0.02em;">
+                <span style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;&amp; facet_field=section_name,day_of_week &amp; fq=section_name:"Arts"</span>
+</font>
+</font>
+</a> <br>
+<font face="courier new">
+    <b>section_name "New York and Region" ~ 907, etc</b>
+</font>
+<br>
+        </li>
+<li>
+    <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}&amp;q=%22Pulitzer%20Prize%22&amp;fq=section_name:Arts&amp;facet_field=section_name,day_of_week&amp;facet_filter=true">
+        <font color="#cc9900" face="trebuchet ms" style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;">
+            <font style="letter-spacing: -0.02em;">
+                <span style="letter-spacing: -0.02em;">q="Pulitzer Prize"&nbsp;</span>&nbsp;<span style="letter-spacing: -0.02em;">&amp; facet_field=section_name,day_of_week &amp; fq=section_name:"Arts" &amp; facet_filter=true</span>
+</font>
+                </font>
+</a>
+                <span style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;"><br>
+                    <font face="courier new">
+                        <b style="font-size: 29.818956px;font-style: normal;font-variant: normal;line-height: 35.992413px;">section_name "Arts" === response.meta.hits</b>
+                        <br>
+                    </font>
+                </span>
+                <br>
+            </li>
+    </ul>
+    <span style="letter-spacing: -0.02em;">
+        <div style="">This concept is called adaptive facets, and is useful for sub-navigation of filtered queries</div>
+</span>
+</div>
+<div style="text-align: left;">
+</div>
+                                    </section>
+                                </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+        <script>
+            function getApiKeyFromUser(){
+                var newKey = window.prompt("Enter your API Key",APIKEY);
+                localStorage.svc_search_v2_articlesearch_api_key=newKey;
+                APIKEY=newKey;
+                assignApiKey();
+            }
+
+            function assignApiKey(){
+                console.log("Setting {api-key} to",APIKEY);
+                var apilinks = document.getElementsByClassName('needsApiKey');
+                Array.prototype.forEach.call(apilinks, function(link){
+                    link.href=link.href.replace('{api-key}',APIKEY);
+                });
+                document.getElementById('apiKeyReveal').innerHTML='Your API Key is: <i>' + APIKEY + '</i>';
+            }
+
+            assignApiKey();
+
+        </script>
+
+
+	</body>
+</html>

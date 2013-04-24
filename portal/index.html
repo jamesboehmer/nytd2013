@@ -1,0 +1,124 @@
+<!DOCTYPE html>   
+<html lang="en">   
+<head>   
+  <title>New York Times Article Search</title>   
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="New York Times Article Search">   
+  <meta name="author" content="James Boehmer">
+
+  <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+  <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/bootstrap/css/datepicker.css" rel="stylesheet">
+  <link href="assets/bootstrap/css/bootstrap-editable.css" rel="stylesheet">
+
+</head>  
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="brand" href="#">New York Times Article Search</a>
+      <div class="nav-collapse collapse">
+        <span class="navbar-text"><a href="#" id="api-key"></a></span>
+        <span class="navbar-text pull-right">
+          <img src="assets/img/NYT-Fraktur-T.png" height="32px" width="32px">
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<!-- BEGIN ARTICLESEARCH -->
+
+<div id="addArticleSearchContainer" class="api-container" >
+  <div class="row-fluid">
+      <form id="addArticleSearchForm" class="well form-search" >  
+        <input id="ArticleSearchParamQ" type="text" class="input-medium search-query typeahead" data-provide="typeahead" placeholder="Query"> 
+        
+        <input id="ArticleSearchParamFQ" type="text" class="input-xxlarge search-query fqParam" placeholder="Filter Query">
+        
+        <div class="btn-group"><button type="button" id="addHighlightButton" class="addHighlightButton btn btn-mini">HL</button></div>
+
+        <div id="ArticleSearchParamsortButtons" class="btn-group" data-toggle="buttons-radio" >
+          <button id="ArticleSearchParamNewestSortRadio" type="button" class="addSortButton addArticleSearchSortButton addArticleSearchSortButton-newest btn active btn-mini" value="newest">New</button>
+          <button id="ArticleSearchParamOldestSortRadio" type="button" class="addSortButton addArticleSearchSortButton addArticleSearchSortButton-oldest btn btn-mini" value="oldest">Old</button>
+          <button id="ArticleSearchParamRelevanceRadio" type="button" class="addSortButton addArticleSearchSortButton addArticleSearchSortButton-relevance btn btn-mini" value="relevance">Best</button>
+        </div>
+        <input id="ArticleSearchParamSort" class="sortParam" type="hidden" value="newest">
+
+        <div class="btn-group">
+          <button type="button" class="btn dropdown-toggle btn-mini" data-toggle="dropdown">Facets<span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><label class="checkbox"><input type="checkbox" value="true" id="ArticleSearchParamFacetFilter" class="addParamDropdown addParamFacet addArticleSearchParamFacetFilter addArticleSearchParamFacet-filter"><small><b>enable filter</b></small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="section_name" id="ArticleSearchParamFacetSectionName" class="addParamDropdown addParamFacet addArticleSearchParamFacet addArticleSearchParamFacet-section_name"><small>section_name</small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="document_type" id="ArticleSearchParamFacetDocumentType" class="addParamDropdown addParamFacet addArticleSearchParamFacet addArticleSearchParamFacet-document_type"><small>document_type</small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="type_of_material" id="ArticleSearchParamFacetTypeOfMaterial" class="addParamDropdown addParamFacet addArticleSearchParamFacet addArticleSearchParamFacet-type_of_material"><small>type_of_material</small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="source" id="ArticleSearchParamFacetSource" class="addParamDropdown addParamFacet addArticleSearchParamFacet addArticleSearchParamFacet-source"><small>source</small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="day_of_week" id="ArticleSearchParamFacetDayOfWeek" class="addParamDropdown addParamFacet addArticleSearchParamFacet addArticleSearchParamFacet-day_of_week"><small>day_of_week</small></label></li>
+
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn dropdown-toggle btn-mini" data-toggle="dropdown">Type<span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><label class="checkbox"><input type="checkbox" value="article" id="ArticleSearchParamTypeArticle" class="addParamDropdown addParamType addArticleSearchParamType addArticleSearchParamType-article"><small>Articles</small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="blogpost" id="ArticleSearchParamTypeBlogpost" class="addParamDropdown addParamType addArticleSearchParamType addArticleSearchParamType-blogpost"><small>Blogposts</small></label></li>
+            <li><label class="checkbox"><input type="checkbox" value="multimedia" id="ArticleSearchParamTypeMedia" class="addParamDropdown addParamType addArticleSearchParamType addArticleSearchParamType-multimedia"><small>Media</small></label></li>
+          </ul>
+        </div>
+
+        <input type="text" value="" placeholder="From" class="span1 input-mini addDatePicker addDatePickerFrom" id="addArticleSearchDatePickerBegin" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+        <input type="text" value="" placeholder="To" class="span1 input-mini addDatePicker addDatePickerTo" id="addArticleSearchDatePickerEnd" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+        
+        <input id="addArticleSearchParamBeginDate" class="addParamBeginDate" type="hidden" >
+        <input id="addArticleSearchParamEndDate" class="addParamEndDate" type="hidden" >
+
+        <input id="ArticleSearchParamOffset" class="paginationParam" type="hidden" placeholder="offset" value="0">
+
+        <button id="ArticleSearchFormSearchButton" type="submit" class="btn btn-mini" >Search</button>  
+      </form>  
+  </div>
+  <div id="addArticleSearchResultsContainer"  style="display:none;">
+      <div class="span3">
+        <div class="well sidebar-nav">
+          <ul id="addArticleSearchNavMetaList" class="nav nav-list"></ul>
+          <ul id="addArticleSearchNavFacetList" class="nav nav-list"></ul>
+        </div>
+      </div>
+      <div class="span12">
+        <div class="pagination pagination-centered">
+          <ul id="addArticleSearchResultsPaginationTop" class="addPagination" ></ul>
+        </div>
+        <ul id="addArticleSearchResultsMain" style="list-style-type: none;"></ul>
+        <div class="pagination pagination-centered">
+          <ul id="addArticleSearchResultsPaginationBottom" class="addPagination" ></ul>
+        </div>
+        <hr>
+        <ul>
+          <li><a id="addArticleSearchCompiledURL" href="#" target="_resultsTarget">View Raw Results</a></li>
+        </ul>
+        <hr>
+        <pre class="collapse in" id="addArticleSearchResultsDebug"></pre>
+      </div>
+  </div>
+  <div id="addArticleSearchspinner"></div>
+</div>
+
+<!-- END ARTICLESEARCH -->
+
+
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script src="assets/js/spin.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap-datepicker.js"></script>
+<script src="assets/bootstrap/js/bootstrap-editable.min.js"></script>
+<script src="assets/js/portal.js"></script>
+</body>  
+
+</html>  
