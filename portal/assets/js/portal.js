@@ -461,7 +461,9 @@ $('.addSortButton').click(
 	function(ev){
 		var sortVal=$(this)[0].getAttribute('value');
 		console.debug("Sort Button clicked:", sortVal);
+		if('relevance'==sortVal) sortVal=null;
 		$(this).closest('form').children('.sortParam').val(sortVal);
+		$(this).closest('form').submit();
 	}
 );
 
