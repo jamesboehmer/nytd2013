@@ -88,7 +88,6 @@
 
 </section>
 <section>
-    <!-- <div style="width: 100px; height: 100px; margin-top: -50px; margin-left: -50px; position: fixed; top: 50%; left: 50%;">foobar</div> -->
     <span id="apiKeyReveal" onclick="javascript:getApiKeyFromUser();" style="cursor: pointer;"></span>
 </section>
 </section>
@@ -102,7 +101,7 @@
                 </font>
             </div>
             <div>
-                <font face="trebuchet ms">First thing's first, you need a key to use NYT APIs!</font>
+                <font face="trebuchet ms">First things first, you need a key to use NYT APIs!</font>
             </div>
             <div>
                 <font face="trebuchet ms">
@@ -158,7 +157,10 @@
                 <i>jsonp</i>
                 </b> is also available, and the callback name is enforced</font>
             </li>
-            <li>For detailed help, see the built in help API at <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/help.json?api-key={api-key}">api.nytimes.com/svc/search/v2/help.json</a>
+        
+        <li>For detailed documentation, see the developer network page at <a href="http://developer.nytimes.com/docs/article_search_api_v2/">developer.nytimes.com/docs/article_search_api_v2/</a>
+        </li>
+        <li>The API also has built in help docs at <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/help.json?api-key={api-key}">api.nytimes.com/svc/search/v2/help.json</a>
         </li>
     </ul>
 </div>
@@ -527,7 +529,7 @@ creative_works              single token
 creative_works.contains     multiple tokens
 day_of_week                 single token
 document_type               case sensitive exact match
-glocations single           token
+glocations                  single token
 glocations.contains         multiple tokens
 headline                    multiple tokens
 headline.search             left-edge n-grams
@@ -1089,7 +1091,7 @@ word_count                  integer
                 console.log("Setting {api-key} to",APIKEY);
                 var apilinks = document.getElementsByClassName('needsApiKey');
                 Array.prototype.forEach.call(apilinks, function(link){
-                    link.href=link.href.replace('{api-key}',APIKEY);
+                    link.href=link.href.replace(/api-key=(.+)(&.+)?/,'api-key='+APIKEY);
                 });
                 document.getElementById('apiKeyReveal').innerHTML='Your API Key is: <i>' + APIKEY + '</i>';
             }
