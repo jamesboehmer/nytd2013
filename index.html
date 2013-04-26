@@ -32,6 +32,12 @@
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
+
+        <style type="text/css">
+            * {
+                text-align: left;
+            }
+        </style>
 	</head>
 
 	<body>
@@ -146,22 +152,9 @@
             <font face="trebuchet ms">Use <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key={api-key}">api.nytimes.com/svc/search/v2/articlesearch.json</a>
         </font>
     </li>
-    <li>
-        <font face="trebuchet ms">All API requests must include the <i>
-            <b>api-key</b>
-            </i> parameter</font>
-        </li>
-        <li>
-            <font face="trebuchet ms">
-                <b>
-                <i>jsonp</i>
-                </b> is also available, and the callback name is enforced</font>
-            </li>
-        
-        <li>For detailed documentation, see the developer network page at <a href="http://developer.nytimes.com/docs/article_search_api_v2/">developer.nytimes.com/docs/article_search_api_v2/</a>
-        </li>
-        <li>The API also has built in help docs at <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/help.json?api-key={api-key}">api.nytimes.com/svc/search/v2/help.json</a>
-        </li>
+    <li>Built in help docs at <a class="needsApiKey" href="http://api.nytimes.com/svc/search/v2/help.json?api-key={api-key}">/svc/search/v2/help.json</a></li>
+    <li>Developer Network docs at <a href="http://developer.nytimes.com/docs/article_search_api_v2/">developer.nytimes.com</a></li>
+    <li>Don't forget the <i><b>api-key</b></i> parameter!</li>
     </ul>
 </div>
 
@@ -183,11 +176,7 @@
         <br>
     </font>
 </div>
-<div>
-    <font face="trebuchet ms">When conducting a search, users generally just want to enter a search term. &nbsp;With the Article Search API, you would submit the entire term in the <b>
-        <i>q</i>
-        </b> parameter</font>
-    </div>
+<div>The <b><i>q</i></b> parameter searches the body, headline, and byline for relevant results.</div>
     <div>
         <br>
     </div>
@@ -211,11 +200,7 @@
                     <br>
                 </font>
             </div>
-            <div>
-                <font face="trebuchet ms">The <b>
-<i>q</i>
-</b> parameter will conduct a relevance-based search among the body, headline, and byline. &nbsp;The default order is based on relevance. &nbsp;Of course with tens of thousands of hits, relevance scores don't have quite the impact you'd expect...</font>
-            </div>
+            
 
 </section>
                         <section>
@@ -233,9 +218,7 @@
         <br>
     </font>
 </div>
-<div>All Article Search API results get returned with a headline and snippet. &nbsp;To highlight the search term in the headline and snippet fields, set the <b>
-<i>hl</i>
-</b> parameter to true</div>
+<div>All results get returned with a headline and snippet. &nbsp;Use the <b><i>hl</i></b> parameter to highlight the query term.</div>
 <div>
     <br>
 </div>
@@ -276,7 +259,7 @@
     </font>
 </div>
 <div>
-    <font face="trebuchet ms">Now you've got results back, but there are way too many! &nbsp;You're really interested in seeing only more recent news</font>
+    <font face="trebuchet ms">Filter your search results by publication date</font>
 </div>
     <div>
         <br>
@@ -305,36 +288,7 @@
 <b>end_date</b>
 </i> parameters are inclusive filters for limiting the search corpus by publication date. &nbsp;</font>
 </div>
-<div>
-    <font face="trebuchet ms">
-        <br>
-    </font>
-</div>
-<div style="text-align: left;">
-    <ul>
-        <li>
-            <span style="letter-spacing: -0.02em;">Having fewer hits quiets the noise a lot for you.&nbsp;</span>
-            <br>
-        </li>
-    </ul>
-</div>
-<div>
-    <font face="trebuchet ms">
-        <br>
-    </font>
-</div>
-<div style="text-align: left;">
-    <ul>
-        <li>
-            <span style="letter-spacing: -0.02em;">And having a smaller corpus to search means the query (</span>
-            <b style="letter-spacing: -0.02em;">
-                <i>q</i>
-            </b>
-            <span style="letter-spacing: -0.02em;">) term's relevance score is much more meaningful.</span>
-            <br>
-        </li>
-    </ul>
-</div>
+
 
 
 
@@ -405,10 +359,7 @@
     </font>
 </div>
 <div>
-<font face="trebuchet ms">What if all you want are the newest results? &nbsp;The <i>
-<b>sort</b>
-</i> parameter sorts the results by publication date, forcibly overriding relevance scores.</font>
-</div>
+The <i><b>sort</b></i> parameter sorts the results by publication date, forcibly overriding relevance scores.</div>
 <div>
     <font face="trebuchet ms">
         <br>
@@ -426,19 +377,8 @@
 
 </ul>
 </div>
-            <div>
-                <font face="trebuchet ms">
-                    <br>
-                </font>
-            </div>
-            <div>
-<font face="trebuchet ms">Sorting can be by <b>newest</b>&nbsp;or<b> oldest</b>
-</font>
-</div>
 <div>
-    <font face="trebuchet ms">
-        <br>
-    </font>
+    <br>
 </div>
 <div>
     <font face="trebuchet ms">Relevance is <i>still</i> calculated for the query term, but only for inclusion in the result set</font>
@@ -468,9 +408,7 @@
         <br>
     </font>
 </div>
-<div>
-<font face="trebuchet ms">So now you have a lot of results, but you'd like to limit them based on some criteria other than date. &nbsp;What if you don't want to see the wire service articles (e.g. AP, Reuters, etc.)? &nbsp;Using standard <a href="http://www.lucenetutorial.com/lucene-query-syntax.html"><font color="#cc9900">Lucene</font></a> syntax, you can create a custom filter</font>
-</div>
+<div>Use standard <a href="http://www.lucenetutorial.com/lucene-query-syntax.html"><font color="#cc9900">Lucene</font></a> syntax to create a custom filter</div>
 <div>
     <font face="trebuchet ms">
         <br>
@@ -609,22 +547,8 @@ word_count                  integer
         <br>
     </font>
 </div>
-<div>
-<font face="trebuchet ms">The <b>
-    <i>type</i>
-    </b> parameter is a convenience which allows you to filter by specific document_type. &nbsp;The document_type field is generally limited to just </font>
-    <font face="courier new">
-        <b>article</b>
-    </font>
-    <font face="trebuchet ms">, </font>
-    <font face="courier new">
-        <b>blogpost</b>
-    </font>
-    <font face="trebuchet ms">, and </font>
-    <font face="courier new">
-        <b>multimedia</b>
-    </font>
-    </div>
+<div>Filter by document_type using the <b><i>type</i></b> parameter</div>
+
 <div>
     <font face="trebuchet ms">
         <br>
@@ -666,13 +590,7 @@ word_count                  integer
         <br>
     </font>
 </div>
-<div>
-<font face="trebuchet ms">The <b>
-<i>type,</i>
-</b>&nbsp;<i>
-                                                <b>begin_date</b>
-                                            </i> and <i>end_date</i> parameters are API conveniences. They are functionally equivalent filter queries, joined by a logical AND</font>
-</div>
+<div>The <b><i>type,</i></b> <i><b>begin_date</b></i> and <b><i>end_date</i></b> parameters are API conveniences. They are functionally equivalent filter queries, joined by a logical AND</div>
 <div>
     <font face="trebuchet ms">
         <br>
@@ -806,11 +724,7 @@ word_count                  integer
         <br>
     </font>
 </div>
-<div>
-<font face="trebuchet ms">Article Search API results are limited to 10 results at a time. &nbsp;In order to advance through the results, you'll need to paginate using the <b>
-<i>page</i>
-</b> parameter.</font>
-</div>
+<div>Paginate through 10 results at a time using the <b><i>page</i></b> parameter</div>
 <div>
     <font face="trebuchet ms">
         <br>
@@ -827,7 +741,6 @@ word_count                  integer
 <br>
         </li>
     </ul>
-    <span style="letter-spacing: -0.02em;">
         <div style="">
             <span style="letter-spacing: -0.02em;">
                 <br>
@@ -841,15 +754,7 @@ word_count                  integer
         <br>
     </span>
 </div>
-<div>
-    <span style="letter-spacing: -0.02em;">Every result comes with a header indicating the total number of hits. &nbsp;The last page number would be&nbsp;</span>
-    <span style="letter-spacing: -0.02em;">
-        <font color="#cc9900" face="courier new">
-            <b>meta.hits/10</b>
-        </font>
-    </span>
-    </div>
-        </span>
+<div><font face="courier new"><b>response.meta.hits/10</b></font> tells you how many pages there are in total</div>
 </div>
 <div>
     <br>
@@ -872,14 +777,7 @@ word_count                  integer
         <br>
     </font>
 </div>
-<div>
-<font face="trebuchet ms">A facet is an aggregate for a field, relative to a search term. &nbsp;For example, if you wanted the top section_name and day_of_week values for the search term "Pulitzer Prize", you would set <b>
-    <i>facet_field</i>
-    </b> to </font>
-    <font face="courier new">
-        <b>section_name,day_of_week</b>
-    </font>
-</div>
+<div>A facet is an aggregate count for a field, relative to a query term.</div>
 <div>
     <font face="trebuchet ms">
         <br>
@@ -903,16 +801,12 @@ word_count                  integer
 <br>
         </li>
     </ul>
-    <span style="letter-spacing: -0.02em;">
         <div style="">
             <span style="letter-spacing: -0.02em;">
                 <br>
             </span>
         </div>
-<div style="">The <font color="#cc9900" face="courier new">
-<b>response.facets</b>
-</font> object will give you the top five section names and days of the week, with (and ranked by) counts.</div>
-</span>
+<div style="">The <font face="courier new"><b>response.facets</b></font> object will give you the top five section names and days of the week, with (and ranked by) counts.</div>
 </div>
 <div style="text-align: left;">
 </div>
@@ -949,7 +843,7 @@ word_count                  integer
             <font face="trebuchet ms">When constructing a front end search application, we can present the user with a list of available filters. &nbsp;Intelligently aiding navigation for the user is always a plus!</font>
         </li>
         <li>
-            <font face="trebuchet ms">We can make search better by coupling the <a href="http://api.nytimes.com/svc/mostpopular/v2/searched/1.json?api-key={api-key}2">most popular search terms</a> with their top facets, and ranking results higher by keyword</font>
+            <font face="trebuchet ms">We can make search better by coupling the <a href="http://api.nytimes.com/svc/mostpopular/v2/searched/1.json?api-key=nytdisrupt2">most popular search terms</a> with their top facets, and ranking results higher by keyword</font>
         </li>
         <li>
             <font face="trebuchet ms">We can visualize the importance of subjects over time by reporting on facets over a moving window</font>
@@ -994,7 +888,7 @@ word_count                  integer
     </font>
 </div>
 <div>
-<font face="trebuchet ms">By default, facets are aggregated only for the query term. &nbsp;As you filter the results (perhaps by using the facet values), the list of facets and counts will not change.</font>
+<font face="trebuchet ms">By default, facets are aggregated only for the query term. &nbsp;You can also include the filter query in the facet calculation</font>
 </div>
 <div>
     <font face="trebuchet ms">
@@ -1101,7 +995,7 @@ word_count                  integer
 </div>
 
 </section>
-<section><h1>Thank you!</h1></section>
+<section><span ><h1 style="text-align: center;">Thank you!</h1><h4 style="text-align: center;">(pssssst....we're hiring!!!)</h4></span></section>
                                 </div>
 
 		</div>
