@@ -234,6 +234,7 @@ $('#addArticleSearchForm').submit(function() {
   if($('#ArticleSearchParamTypeArticle:checked').val())  types.push($('#ArticleSearchParamTypeArticle').val());
   if($('#ArticleSearchParamTypeBlogpost:checked').val()) types.push($('#ArticleSearchParamTypeBlogpost').val());
   if($('#ArticleSearchParamTypeMedia:checked').val())  types.push($('#ArticleSearchParamTypeMedia').val());
+  if($('#ArticleSearchParamTypeTopic:checked').val())  types.push($('#ArticleSearchParamTypeTopic').val());
   if(types.length>0)  args.push('type='+ encodeURIComponent(types.join(',')));
 
   if($('#addArticleSearchDatePickerBegin').val() && $('#addArticleSearchParamBeginDate').val()) args.push('begin_date='+ encodeURIComponent($('#addArticleSearchParamBeginDate').val()));
@@ -358,6 +359,7 @@ function putADDArticleSearchResultsPretty(data, apiURL){
 }
 
 function formatPubDate(d){
+	if(!d) return "";
 	console.debug("Format date:",d);
 	d=d.replace(/-/g,'');
 	var date=new Date(d.substring(0,4), parseInt(d.substring(4,6))-1, d.substring(6,8));
