@@ -362,7 +362,7 @@ function formatPubDate(d){
 	if(!d) return "";
 	console.debug("Format date:",d);
 	d=d.replace(/-/g,'');
-	var date=new Date(d.substring(0,4), parseInt(d.substring(4,6))-1, d.substring(6,8));
+	var date=new Date(parseInt(d.substring(0,4),10), parseInt(d.substring(4,6),10)-1, parseInt(d.substring(6,8),10));
 	return date.toDateString();
 }
 
