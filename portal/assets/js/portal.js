@@ -1,7 +1,7 @@
 APIKEY=localStorage.svc_search_v2_articlesearch_api_key;
 API_HOST='api.nytimes.com';
-ARTICLESEARCHJSONPURL='http://' + API_HOST + '/svc/search/v2/articlesearch.jsonp';
-ARTICLESEARCHJSONURL=ARTICLESEARCHJSONPURL.substring(0,ARTICLESEARCHJSONPURL.length-1);
+ARTICLESEARCHJSONURL='http://' + API_HOST + '/svc/search/v2/articlesearch.json';
+ARTICLESEARCHJSONPURL=ARTICLESEARCHJSONURL + 'p';
 
 lastArticleSearchState='';
 lastArticleSearchHash='#/articlesearch';
@@ -183,6 +183,7 @@ function setupFromHash(){
 				}
 			}
 		}
+		lastArticleSearchState=null;
 		if(hash.length>1) $('#addArticleSearchForm').submit();
 		return;
 	}
@@ -242,8 +243,8 @@ $('#addArticleSearchForm').submit(function() {
 
   var ArticleSearchState=args.join();
   if(lastArticleSearchState!=ArticleSearchState){
+    if(lastArticleSearchState!=null) $('#ArticleSearchParamOffset').val(0);
     lastArticleSearchState=ArticleSearchState;
-    $('#ArticleSearchParamOffset').val(0);
   }
   if($('#ArticleSearchParamOffset').val()) args.push('page='+ encodeURIComponent($('#ArticleSearchParamOffset').val()));
   
@@ -255,13 +256,15 @@ $('#addArticleSearchForm').submit(function() {
   articleSearchToHash(args);
   f=$.ajax({
     type: 'GET',
-    jsonp: true,
-    url: ARTICLESEARCHJSONPURL,
+    // jsonp: true,
+    jsonp: false,
+    url: ARTICLESEARCHJSONURL,
     cache: true,
     data: args.join('&'),
-    dataType: 'jsonp',
-    jsonp: 'callback',
-    jsonpCallback: 'svc_search_v2_articlesearch',
+    // dataType: 'jsonp',
+    dataType: 'json',
+    // jsonp: 'callback',
+    // jsonpCallback: 'svc_search_v2_articlesearch',
     timeout:3000,
   }).done(function(data) { 
     busy=false;
