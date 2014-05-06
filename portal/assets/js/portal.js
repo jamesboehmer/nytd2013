@@ -443,6 +443,20 @@ function putADDPagination(totalHits, offset, numDocsPerPage, formID, gotoMultipl
 	$('.pagination').show();	
 }
 
+$('.addDatePicker').keydown(function(e){
+    if(e.keyCode == 13)
+    {
+    	var enteredDate=$(this).val();
+    	$(this).datepicker('update',enteredDate);
+    	var event = jQuery.Event( "changeDate" );
+		enteredDate=$(this).val();
+    	var date=new Date(enteredDate.substring(6,11), parseInt(enteredDate.substring(0,2))-1, enteredDate.substring(3,5));
+		event.date = date;
+		
+        $(this).datepicker().trigger(event);
+    }
+});
+
 $('.addDatePicker').datepicker({
     format: 'mm-dd-yyyy',
     startDate: new Date(Date.UTC(1851, 8, 18))
