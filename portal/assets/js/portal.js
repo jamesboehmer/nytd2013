@@ -443,8 +443,8 @@ function putADDPagination(totalHits, offset, numDocsPerPage, formID, gotoMultipl
 	$('.pagination').show();	
 }
 
-$('.addDatePicker').keydown(function(e){
-    if(e.keyCode == 13)
+$('.addDatePicker').bind('keydown focusout', function(e){
+    if(e.keyCode == 13 || e.type == 'focusout')
     {
     	var enteredDate=$(this).val();
     	$(this).datepicker('update',enteredDate);
