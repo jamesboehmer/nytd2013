@@ -337,7 +337,10 @@ function putADDArticleSearchResultsPretty(data, apiURL){
         docsHTML+='</td>';
       }
       docsHTML+='<td style="border:none;text-align:left">';
-      docsHTML+='<a href="' + data[i].web_url + '" target="_resultsTarget">' + data[i].headline.main + '</a>';
+      var headline = data[i].headline.main;
+      if(headline===undefined) headline = data[i].headline.name;
+      if(headline===undefined) headline = data[i].web_url;
+      docsHTML+='<a href="' + data[i].web_url + '" target="_resultsTarget">' + headline + '</a>';
       docsHTML+='<br>';
       var lp='';
       lp=data[i].snippet;
