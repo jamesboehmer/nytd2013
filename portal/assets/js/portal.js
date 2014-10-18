@@ -236,6 +236,10 @@ $('#addArticleSearchForm').submit(function() {
   if($('#ArticleSearchParamTypeBlogpost:checked').val()) types.push($('#ArticleSearchParamTypeBlogpost').val());
   if($('#ArticleSearchParamTypeMedia:checked').val())  types.push($('#ArticleSearchParamTypeMedia').val());
   if($('#ArticleSearchParamTypeTopic:checked').val())  types.push($('#ArticleSearchParamTypeTopic').val());
+  
+  if($('#ArticleSearchParamTypeRecipe:checked').val())  types.push($('#ArticleSearchParamTypeRecipe').val());
+  if($('#ArticleSearchParamTypeSectionFront:checked').val())  types.push($('#ArticleSearchParamTypeSectionFront').val());
+  if($('#ArticleSearchParamTypeColumn:checked').val())  types.push($('#ArticleSearchParamTypeColumn').val());
   if(types.length>0)  args.push('type='+ encodeURIComponent(types.join(',')));
 
   if($('#addArticleSearchDatePickerBegin').val() && $('#addArticleSearchParamBeginDate').val()) args.push('begin_date='+ encodeURIComponent($('#addArticleSearchParamBeginDate').val()));
@@ -337,18 +341,23 @@ function putADDArticleSearchResultsPretty(data, apiURL){
         docsHTML+='</td>';
       }
       docsHTML+='<td style="border:none;text-align:left">';
-      docsHTML+='<a href="' + data[i].web_url + '" target="_resultsTarget">' + data[i].headline.main + '</a>';
+      var headline = data[i].headline.name;
+      if(headline===undefined) headline = data[i].headline.main;
+      if(headline===undefined) headline = data[i].web_url;
+      docsHTML+='<a href="' + data[i].web_url + '" target="_resultsTarget">' + headline + '</a>';
       docsHTML+='<br>';
       var lp='';
       lp=data[i].snippet;
       docsHTML+=lp;
-      pdate=formatPubDate(data[i].pub_date);
-      docsHTML+='<br>';
-      byline='';
-      if (data[i].byline && data[i].byline.original) byline = ' - ' + data[i].byline.original;
-      section='';
-      if (data[i].section_name) section = ' - ' + data[i].section_name;
-      docsHTML+='<span class="help-block small"><strong>' + pdate + '</strong> ' + byline + section + '</span>';
+      if (data[i].document_type!="sectionfront") {
+	      pdate=formatPubDate(data[i].pub_date);
+	      docsHTML+='<br>';
+	      byline='';
+	      if (data[i].byline && data[i].byline.original) byline = ' - ' + data[i].byline.original;
+	      section='';
+	      if (data[i].section_name) section = ' - ' + data[i].section_name;
+	      docsHTML+='<span class="help-block small"><strong>' + pdate + '</strong> ' + byline + section + '</span>';
+	  }
        docsHTML+='</td></tr></table>';
 
       docsHTML+='</li>';
@@ -365,7 +374,7 @@ function formatPubDate(d){
 	if(!d) return "";
 	console.debug("Format date:",d);
 	d=d.replace(/-/g,'');
-	var date=new Date(d.substring(0,4), parseInt(d.substring(4,6))-1, d.substring(6,8));
+	var date=new Date(parseInt(d.substring(0,4),10), parseInt(d.substring(4,6),10)-1, parseInt(d.substring(6,8),10));
 	return date.toDateString();
 }
 
